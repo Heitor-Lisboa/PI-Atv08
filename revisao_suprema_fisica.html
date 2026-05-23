@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ Revisão Suprema — Física Caps. 1 & 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: #2a2a3a;
+    --accent1: #ff4d6d;
+    --accent2: #00d4ff;
+    --accent3: #ffe94d;
+    --accent4: #7c5cfc;
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+    --formula-bg: #0d1117;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    background: radial-gradient(ellipse at 30% 40%, rgba(124,92,252,0.18) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 60%, rgba(0,212,255,0.12) 0%, transparent 55%),
+                var(--bg);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+  .hero-badge {
+    background: linear-gradient(135deg, var(--accent1), var(--accent4));
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    background: linear-gradient(135deg, #fff 30%, var(--accent2) 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+  }
+  .hero-sub span { color: var(--accent3); font-weight: 700; }
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    font-family: 'Space Mono', monospace;
+    animation: bounce 1.5s infinite;
+  }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+  /* NAV */
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto 3rem;
+  }
+  .toc h2 { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.15em; margin-bottom: 1rem; font-family: 'Space Mono', monospace; }
+  .toc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem; }
+  .toc-link {
+    display: block;
+    padding: 0.6rem 1rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+  .toc-link:hover { border-color: var(--accent2); color: var(--accent2); transform: translateY(-1px); }
+  .toc-link .num { color: var(--accent1); font-family: 'Space Mono', monospace; font-size: 0.75rem; display: block; }
+
+  /* MAIN LAYOUT */
+  main { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 6rem; }
+
+  /* CHAPTER DIVIDER */
+  .chapter-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 4rem 0 2rem;
+  }
+  .chapter-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    line-height: 1;
+    -webkit-text-stroke: 2px var(--accent4);
+    color: transparent;
+    flex-shrink: 0;
+  }
+  .chapter-info { flex: 1; }
+  .chapter-tag { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent4); letter-spacing: 0.2em; }
+  .chapter-title { font-size: 1.6rem; font-weight: 800; }
+  .chapter-line { height: 2px; background: linear-gradient(90deg, var(--accent4), transparent); margin-top: 0.5rem; }
+
+  /* SECTION */
+  .section { margin-bottom: 2rem; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.2rem;
+  }
+  .section-icon { font-size: 1.4rem; }
+  .section-title { font-size: 1.2rem; font-weight: 700; }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .card-accent-left {
+    border-left: 3px solid var(--accent1);
+  }
+  .card-accent-blue {
+    border-left: 3px solid var(--accent2);
+  }
+  .card-accent-yellow {
+    border-left: 3px solid var(--accent3);
+  }
+  .card-accent-purple {
+    border-left: 3px solid var(--accent4);
+  }
+
+  /* FORMULA */
+  .formula-box {
+    background: var(--formula-bg);
+    border: 1px solid var(--accent2);
+    border-radius: 0.5rem;
+    padding: 1rem 1.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 1.1rem;
+    text-align: center;
+    color: var(--accent2);
+    margin: 1rem 0;
+    position: relative;
+  }
+  .formula-box::before {
+    content: 'FÓRMULA';
+    position: absolute;
+    top: -0.5rem;
+    left: 1rem;
+    background: var(--formula-bg);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    padding: 0 0.3rem;
+  }
+
+  /* HIGHLIGHT / ALERT */
+  .highlight {
+    background: rgba(255,233,77,0.08);
+    border: 1px solid rgba(255,233,77,0.3);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    font-size: 0.95rem;
+  }
+  .highlight strong { color: var(--accent3); }
+
+  .alert {
+    background: rgba(255,77,109,0.08);
+    border: 1px solid rgba(255,77,109,0.3);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+  }
+  .alert strong { color: var(--accent1); }
+
+  .tip {
+    background: rgba(0,212,255,0.07);
+    border: 1px solid rgba(0,212,255,0.25);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  .tip strong { color: var(--accent2); }
+
+  /* LIST */
+  ul.styled, ol.styled {
+    padding-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+  }
+  ul.styled li::marker { color: var(--accent1); }
+  ol.styled li::marker { color: var(--accent2); font-family: 'Space Mono', monospace; font-size: 0.8rem; }
+
+  /* STEPS FLOWCHART */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .step {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    position: relative;
+  }
+  .step-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent4), var(--accent1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .step-line {
+    width: 2px;
+    flex: 1;
+    min-height: 24px;
+    background: linear-gradient(to bottom, var(--accent4), transparent);
+    margin: 4px 0;
+  }
+  .step-content { padding: 0.25rem 0 1.5rem; }
+  .step-label { font-weight: 700; color: var(--accent3); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; }
+  .step-desc { font-size: 0.9rem; color: var(--text); margin-top: 0.2rem; }
+
+  /* TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    margin: 1rem 0;
+  }
+  th {
+    background: var(--surface);
+    color: var(--accent2);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 2px solid var(--accent2);
+  }
+  td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  td strong { color: var(--accent3); }
+
+  /* QUIZ */
+  .quiz-section {
+    background: linear-gradient(135deg, rgba(124,92,252,0.1), rgba(0,212,255,0.05));
+    border: 1px solid var(--accent4);
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-top: 3rem;
+  }
+  .quiz-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 1.5rem; color: var(--accent4); }
+  .quiz-q {
+    background: var(--card);
+    border-radius: 0.6rem;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+  .quiz-q:hover { border-color: var(--accent4); }
+  .quiz-q .q-text { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.75rem; }
+  .quiz-options { display: flex; flex-direction: column; gap: 0.4rem; }
+  .quiz-option {
+    padding: 0.5rem 0.9rem;
+    border-radius: 0.4rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+    color: var(--text);
+  }
+  .quiz-option:hover:not(:disabled) { border-color: var(--accent2); color: var(--accent2); }
+  .quiz-option.correct { background: rgba(0,212,255,0.12); border-color: var(--accent2); color: var(--accent2); }
+  .quiz-option.wrong { background: rgba(255,77,109,0.12); border-color: var(--accent1); color: var(--accent1); }
+  .quiz-option:disabled { cursor: not-allowed; }
+  .quiz-feedback { display: none; font-size: 0.85rem; margin-top: 0.75rem; padding: 0.5rem 0.8rem; border-radius: 0.4rem; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.ok { background: rgba(0,212,255,0.1); color: var(--accent2); }
+  .quiz-feedback.nok { background: rgba(255,77,109,0.1); color: var(--accent1); }
+
+  /* COMPARISON GRID */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  @media (max-width: 600px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-item {
+    background: var(--card);
+    border-radius: 0.6rem;
+    padding: 1.2rem;
+  }
+  .compare-item h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.6rem; }
+  .compare-item.c1 h4 { color: var(--accent1); }
+  .compare-item.c2 h4 { color: var(--accent2); }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.05em;
+    margin-left: 0.4rem;
+    vertical-align: middle;
+  }
+  .badge-red { background: rgba(255,77,109,0.2); color: var(--accent1); }
+  .badge-blue { background: rgba(0,212,255,0.2); color: var(--accent2); }
+  .badge-yellow { background: rgba(255,233,77,0.2); color: var(--accent3); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-family: 'Space Mono', monospace;
+  }
+
+  p { margin-bottom: 0.75rem; font-size: 0.95rem; }
+  h3 { font-size: 1rem; font-weight: 700; margin: 1rem 0 0.5rem; color: var(--accent3); }
+  h4 { font-size: 0.9rem; font-weight: 600; margin: 0.75rem 0 0.4rem; }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0; }
+  .tag { padding: 0.2rem 0.7rem; border-radius: 100px; font-size: 0.75rem; background: var(--surface); border: 1px solid var(--border); }
+
+  .number-highlight {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    color: var(--accent2);
+    font-size: 1.1em;
+  }
+
+  .timeline { display: flex; flex-direction: column; gap: 0.6rem; }
+  .tl-item { display: flex; gap: 1rem; align-items: flex-start; }
+  .tl-year { font-family: 'Space Mono', monospace; font-size: 0.8rem; color: var(--accent3); min-width: 50px; padding-top: 0.15rem; }
+  .tl-text { font-size: 0.88rem; }
+
+  .conversao-card {
+    background: var(--formula-bg);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+  }
+  .conversao-arrow { color: var(--accent3); font-size: 1.5rem; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">⚡ REVISÃO SUPREMA — PROVA AMANHÃ</div>
+  <h1>FÍSICA<br>CAPS. 1 & 2</h1>
+  <p class="hero-sub">Método científico, Sistema SI, Cinemática, Velocidade & Aceleração — <span>tudo que cai na prova</span>, com extras para bombar!</p>
+  <div class="scroll-hint">↓ SCROLL PARA COMEÇAR ↓</div>
+</section>
+
+<!-- ÍNDICE -->
+<main>
+<nav>
+  <div class="toc">
+    <h2>NAVEGAÇÃO RÁPIDA</h2>
+    <div class="toc-grid">
+      <a href="#c1s1" class="toc-link"><span class="num">CAP 1 · 01</span>Pensamento Científico</a>
+      <a href="#c1s2" class="toc-link"><span class="num">CAP 1 · 02</span>Método Científico</a>
+      <a href="#c1s3" class="toc-link"><span class="num">CAP 1 · 03</span>A Física</a>
+      <a href="#c1s4" class="toc-link"><span class="num">CAP 1 · 04</span>Sistema SI</a>
+      <a href="#c1s5" class="toc-link"><span class="num">CAP 1 · 05</span>Prefixos do SI</a>
+      <a href="#c1s6" class="toc-link"><span class="num">CAP 1 · 06</span>Representações Gráficas</a>
+      <a href="#c2s1" class="toc-link"><span class="num">CAP 2 · 01</span>Espaço & Referencial</a>
+      <a href="#c2s2" class="toc-link"><span class="num">CAP 2 · 02</span>Velocidade Escalar</a>
+      <a href="#c2s3" class="toc-link"><span class="num">CAP 2 · 03</span>Aceleração</a>
+      <a href="#c2s4" class="toc-link"><span class="num">CAP 2 · 04</span>Movimento Uniforme</a>
+      <a href="#quiz" class="toc-link"><span class="num">EXTRA</span>Quiz de Revisão</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================
+     CAPÍTULO 1
+     ============================ -->
+<div class="chapter-divider">
+  <div class="chapter-num">01</div>
+  <div class="chapter-info">
+    <div class="chapter-tag">CAPÍTULO 1 — UNIDADE 1: MECÂNICA</div>
+    <div class="chapter-title">O Conhecimento Científico, as Ciências da Natureza e a Física</div>
+    <div class="chapter-line"></div>
+  </div>
+</div>
+
+<!-- C1 S1: Fundamentos do pensamento científico -->
+<section class="section" id="c1s1">
+  <div class="section-header">
+    <span class="section-icon">🔬</span>
+    <span class="section-title">1. Fundamentos do Pensamento Científico</span>
+  </div>
+
+  <div class="card card-accent-left">
+    <p>As Ciências Naturais buscam explicar os fenômenos da natureza com base em <strong>observação sistemática e controlada</strong> dos fatos, tendo como fundamento o <strong>raciocínio lógico</strong>.</p>
+    <p>Princípio fundamental: toda explicação sobre um fenômeno natural deve ser submetida a <strong>testes e críticas</strong> de outros estudiosos — isso é o que diferencia a ciência de meros "palpites".</p>
+  </div>
+
+  <h3>Conceitos-chave para a prova</h3>
+  <div class="card card-accent-blue">
+    <table>
+      <thead>
+        <tr><th>Conceito</th><th>O que é</th><th>Exemplo</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Fato</strong></td><td>Evento ou processo do mundo natural percebido objetivamente pelos sentidos ou com auxílio de instrumentos</td><td>A maçã cai ao ser solta</td></tr>
+        <tr><td><strong>Hipótese</strong></td><td>Tentativa de explicar um fenômeno; explicação provisória a ser testada</td><td>"O ruído vem de tempestades"</td></tr>
+        <tr><td><strong>Teoria</strong></td><td>Ideia ampla com hipóteses testadas e confirmadas; modelo científico que explica coerentemente um conjunto de fenômenos</td><td>Teoria da gravitação universal</td></tr>
+        <tr><td><strong>Modelo científico</strong></td><td>Representação que explica fenômenos e permite novas hipóteses</td><td>Modelo atômico de Bohr</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert">
+    <strong>⚠️ Atenção!</strong> Na linguagem cotidiana, "hipótese" e "teoria" são usadas como sinônimos — na Ciência, são coisas bem diferentes! <em>Hipótese</em> é provisória; <em>teoria</em> já foi validada por experimentos.
+  </div>
+
+  <div class="highlight">
+    <strong>💡 Extra que impressiona:</strong> O conhecimento científico avança também por <em>descobertas acidentais</em>. Os raios X foram descobertos em 1895 por Wilhelm Conrad Roentgen (1845–1923) enquanto fazia experimentos com eletricidade — sem planejá-lo!
+  </div>
+</section>
+
+<!-- C1 S2: Método científico -->
+<section class="section" id="c1s2">
+  <div class="section-header">
+    <span class="section-icon">🧪</span>
+    <span class="section-title">2. O Método Científico</span>
+  </div>
+
+  <div class="card card-accent-purple">
+    <p>O trabalho científico pode ser dividido em <strong>ciência pura</strong> (busca por novas teorias e previsões) e <strong>ciência aplicada</strong> (usa o conhecimento da ciência pura para resolver problemas práticos).</p>
+    <p>O <strong>método científico</strong> permite resolver problemas de maneira ordenada. Não é uma receita rígida — nem todos os cientistas seguem os mesmos procedimentos na mesma ordem.</p>
+  </div>
+
+  <h3>Etapas do Método Científico — caso Karl Jansky (1930s)</h3>
+  <div class="card">
+    <div class="steps">
+      <div class="step">
+        <div class="step-connector"><div class="step-num">1</div><div class="step-line"></div></div>
+        <div class="step-content"><div class="step-label">Identificar o problema</div><div class="step-desc">Jansky precisava descobrir a origem de ruídos que atrapalhavam radiotelefônicas América–Europa.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-connector"><div class="step-num">2</div><div class="step-line"></div></div>
+        <div class="step-content"><div class="step-label">Fazer observações</div><div class="step-desc">Construiu sistema de antenas giratório para captar os ruídos e estudá-los sistematicamente.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-connector"><div class="step-num">3</div><div class="step-line"></div></div>
+        <div class="step-content"><div class="step-label">Formular uma hipótese</div><div class="step-desc">Acreditou inicialmente que os ruídos vinham de tempestades próximas e distúrbios elétricos atmosféricos.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-connector"><div class="step-num">4</div><div class="step-line"></div></div>
+        <div class="step-content"><div class="step-label">Testar com experimentos</div><div class="step-desc">Fez novos experimentos que contradisseram a primeira hipótese — a ciência exige isso!</div></div>
+      </div>
+      <div class="step">
+        <div class="step-connector"><div class="step-num">5</div><div class="step-line"></div></div>
+        <div class="step-content"><div class="step-label">Analisar e concluir</div><div class="step-desc">Concluiu que os ruídos vinham de estrelas no centro da Via Láctea — ondas de rádio do espaço!</div></div>
+      </div>
+      <div class="step">
+        <div class="step-connector"><div class="step-num">6</div></div>
+        <div class="step-content"><div class="step-label">Divulgar os resultados</div><div class="step-desc">Suas descobertas criaram um campo inteiramente novo: a <em>Radioastronomia</em>.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <strong>🔵 Dica extra:</strong> O fluxograma do método científico é cíclico — se a hipótese for falsa ou parcialmente verdadeira, volta-se ao início para reformulá-la. Isso é normal e esperado na Ciência!
+  </div>
+</section>
+
+<!-- C1 S3: A Física -->
+<section class="section" id="c1s3">
+  <div class="section-header">
+    <span class="section-icon">⚛️</span>
+    <span class="section-title">3. A Física e seus Campos de Estudo</span>
+  </div>
+
+  <div class="card card-accent-yellow">
+    <p><strong>Física</strong> (do grego <em>physis</em> = natureza) estuda os componentes básicos dos fenômenos e as leis que governam interações entre eles.</p>
+  </div>
+
+  <h3>Física Clássica <span class="badge badge-blue">5 grandes áreas</span></h3>
+  <div class="compare-grid">
+    <div class="compare-item c1">
+      <h4>🔴 Física Clássica (amarelo)</h4>
+      <ul class="styled">
+        <li><strong>Mecânica</strong> — movimento e forças</li>
+        <li><strong>Termofísica</strong> — calor e termodinâmica</li>
+        <li><strong>Óptica</strong> — luz e visão</li>
+        <li><strong>Ondas</strong> — som e audição</li>
+        <li><strong>Eletromagnetismo</strong> — eletricidade e magnetismo</li>
+      </ul>
+    </div>
+    <div class="compare-item c2">
+      <h4>🔵 Física Contemporânea (verde)</h4>
+      <ul class="styled">
+        <li><strong>Relatividade e Cosmologia</strong></li>
+        <li><strong>Física Quântica</strong></li>
+        <li><strong>Astrofísica</strong></li>
+        <li><strong>Física Nuclear</strong></li>
+        <li><strong>Física da Matéria Condensada</strong></li>
+      </ul>
+    </div>
+  </div>
+  <div class="highlight">
+    <strong>💡 Lembre-se:</strong> A Física Contemporânea (ou Moderna) tem início com as teorias do século XX — Relatividade de Einstein (1905) e Mecânica Quântica.
+  </div>
+</section>
+
+<!-- C1 S4: SI -->
+<section class="section" id="c1s4">
+  <div class="section-header">
+    <span class="section-icon">📏</span>
+    <span class="section-title">4. Sistema Internacional de Unidades (SI)</span>
+  </div>
+
+  <div class="card card-accent-blue">
+    <p>Criado na França em <strong>1790</strong> (Revolução Francesa), o Sistema Métrico Decimal evoluiu para o atual <strong>SI</strong> — usado no Brasil e na maioria dos países.</p>
+    <p>O SI é composto de <strong>7 unidades de base</strong>, <strong>2 unidades suplementares</strong> e unidades derivadas.</p>
+  </div>
+
+  <h3>As 7 Unidades de Base do SI <span class="badge badge-red">DECORAR!</span></h3>
+  <table>
+    <thead>
+      <tr><th>Grandeza</th><th>Unidade</th><th>Símbolo</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Comprimento</strong></td><td>metro</td><td class="number-highlight">m</td></tr>
+      <tr><td><strong>Massa</strong></td><td>quilograma</td><td class="number-highlight">kg</td></tr>
+      <tr><td><strong>Tempo</strong></td><td>segundo</td><td class="number-highlight">s</td></tr>
+      <tr><td><strong>Corrente elétrica</strong></td><td>ampere</td><td class="number-highlight">A</td></tr>
+      <tr><td><strong>Temperatura termodinâmica</strong></td><td>kelvin</td><td class="number-highlight">K</td></tr>
+      <tr><td><strong>Quantidade de matéria</strong></td><td>mol</td><td class="number-highlight">mol</td></tr>
+      <tr><td><strong>Intensidade luminosa</strong></td><td>candela</td><td class="number-highlight">cd</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Unidades Suplementares</h3>
+  <div class="card">
+    <ul class="styled">
+      <li><strong>Ângulo plano</strong> → radiano (rad)</li>
+      <li><strong>Ângulo sólido</strong> → esterradiano (sr)</li>
+    </ul>
+  </div>
+
+  <h3>Definição das Grandezas Fundamentais da Mecânica</h3>
+  <div class="card card-accent-left">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-year">METRO</div>
+        <div class="tl-text">Definido em 1983 como a distância percorrida pela luz no vácuo em 1/299.792.458 s. Antes era 1/10.000.000 da distância do equador ao Polo Norte.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">KG</div>
+        <div class="tl-text">Desde 2019 definido com base na <strong>constante de Planck</strong>. Antes era a massa de um cilindro de platina-irídio guardado na França.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">SEGUNDO</div>
+        <div class="tl-text">Desde 1967: intervalo correspondente a <strong>9.192.631.770 períodos</strong> de transição do átomo de césio-133. O relógio atômico da USP erra apenas 1s a cada 1 milhão de anos!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert">
+    <strong>⚠️ Conversão importante:</strong><br>
+    1 min = 60 s &nbsp;|&nbsp; 1 h = 60 min = 3.600 s
+  </div>
+</section>
+
+<!-- C1 S5: Prefixos -->
+<section class="section" id="c1s5">
+  <div class="section-header">
+    <span class="section-icon">🔢</span>
+    <span class="section-title">5. Prefixos do SI e Notação Científica</span>
+  </div>
+
+  <div class="card card-accent-purple">
+    <p><strong>Notação científica:</strong> N = m × 10ⁿ, onde 1 ≤ m &lt; 10 e n é inteiro.</p>
+    <p>Ex.: 253 = 2,53 × 10²&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;0,0045 = 4,5 × 10⁻³</p>
+  </div>
+
+  <h3>Principais Prefixos <span class="badge badge-red">CAIR MUITO NA PROVA!</span></h3>
+  <table>
+    <thead>
+      <tr><th>Prefixo</th><th>Símbolo</th><th>Fator</th><th>Exemplo</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>giga</strong></td><td>G</td><td>10⁹</td><td>1 GB = 10⁹ bytes</td></tr>
+      <tr><td><strong>mega</strong></td><td>M</td><td>10⁶</td><td>1 MHz = 10⁶ Hz</td></tr>
+      <tr><td><strong>quilo</strong></td><td>k</td><td>10³</td><td>1 km = 10³ m</td></tr>
+      <tr><td>hecto</td><td>h</td><td>10²</td><td>1 hm = 100 m</td></tr>
+      <tr><td>deca</td><td>da</td><td>10¹</td><td>—</td></tr>
+      <tr><td>deci</td><td>d</td><td>10⁻¹</td><td>1 dm = 0,1 m</td></tr>
+      <tr><td><strong>centi</strong></td><td>c</td><td>10⁻²</td><td>1 cm = 0,01 m</td></tr>
+      <tr><td><strong>mili</strong></td><td>m</td><td>10⁻³</td><td>1 mm = 0,001 m</td></tr>
+      <tr><td><strong>micro</strong></td><td>µ</td><td>10⁻⁶</td><td>1 µm = 10⁻⁶ m</td></tr>
+      <tr><td><strong>nano</strong></td><td>n</td><td>10⁻⁹</td><td>1 nm = 10⁻⁹ m</td></tr>
+      <tr><td>pico</td><td>p</td><td>10⁻¹²</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Conversão de Unidades — Estratégia</h3>
+  <div class="card card-accent-blue">
+    <p>Sempre converta tudo para a <strong>mesma unidade</strong> antes de comparar ou calcular!</p>
+    <div class="conversao-card">
+      <span>3,6 km/h</span>
+      <span class="conversao-arrow">→</span>
+      <span style="color: var(--accent3)">× 1000/3600</span>
+      <span class="conversao-arrow">→</span>
+      <span>1 m/s</span>
+    </div>
+    <div class="highlight">
+      <strong>💡 Macete clássico:</strong> <em>m/s → km/h:</em> multiplica por 3,6 &nbsp;|&nbsp; <em>km/h → m/s:</em> divide por 3,6
+    </div>
+  </div>
+
+  <div class="card card-accent-yellow">
+    <h4>Exemplo do livro — resolvido passo a passo</h4>
+    <p>Pessoa: v = 3,6 km/h &nbsp;|&nbsp; Ave: v = 240 m/min &nbsp;|&nbsp; Peixe: v = 180 cm/s</p>
+    <p>Convertendo para m/s:</p>
+    <ul class="styled">
+      <li>Pessoa: 3,6 × (10³ m / 3600 s) = <strong>1 m/s</strong></li>
+      <li>Ave: 240 × (1/60) = <strong>4 m/s</strong></li>
+      <li>Peixe: 180 × 10⁻² = <strong>1,8 m/s</strong></li>
+    </ul>
+    <p>Ordem crescente: <strong>v_pessoa &lt; v_peixe &lt; v_ave</strong></p>
+  </div>
+</section>
+
+<!-- C1 S6: Gráficos -->
+<section class="section" id="c1s6">
+  <div class="section-header">
+    <span class="section-icon">📊</span>
+    <span class="section-title">6. Representações Gráficas</span>
+  </div>
+
+  <div class="card card-accent-left">
+    <p>Uma relação entre grandezas pode ser representada de 3 maneiras:</p>
+    <ul class="styled">
+      <li><strong>Quadro/tabela</strong> — pares de valores</li>
+      <li><strong>Lei matemática</strong> — equação (ex.: c = 4,50 + 2,75·d)</li>
+      <li><strong>Gráfico</strong> — visual, resumido, mostra tendências</li>
+    </ul>
+  </div>
+
+  <div class="tip">
+    <strong>🔵 Para a prova:</strong> Em um gráfico de <em>s × t</em> (espaço × tempo) no Movimento Uniforme, a inclinação da reta (tg θ = Δs/Δt) é igual à <strong>velocidade escalar do móvel</strong>. Reta mais inclinada = maior velocidade!
+  </div>
+
+  <div class="highlight">
+    <strong>💡 Extra:</strong> Os gráficos podem representar grandezas de qualquer campo do conhecimento — econômico, social, geográfico. Na Física eles são ferramentas de análise essenciais. Aprenda a ler eixos, escalas e o que a inclinação representa!
+  </div>
+</section>
+
+<!-- ============================
+     CAPÍTULO 2
+     ============================ -->
+<div class="chapter-divider">
+  <div class="chapter-num">02</div>
+  <div class="chapter-info">
+    <div class="chapter-tag">CAPÍTULO 2 — UNIDADE 1: MECÂNICA</div>
+    <div class="chapter-title">Cinemática</div>
+    <div class="chapter-line" style="background: linear-gradient(90deg, var(--accent2), transparent);"></div>
+  </div>
+</div>
+
+<!-- C2 S1: Espaço e referencial -->
+<section class="section" id="c2s1">
+  <div class="section-header">
+    <span class="section-icon">📍</span>
+    <span class="section-title">1. Espaço, Referencial, Velocidade e Aceleração</span>
+  </div>
+
+  <div class="card card-accent-blue">
+    <p><strong>Cinemática</strong> = ramo da Mecânica que descreve os movimentos dos corpos <em>sem considerar as causas</em> desses movimentos.</p>
+    <p>Estudaremos dois movimentos: <strong>uniforme (MU)</strong> e <strong>uniformemente variado (MUV)</strong>.</p>
+  </div>
+
+  <h3>Conceitos Fundamentais</h3>
+  <div class="card">
+    <table>
+      <thead>
+        <tr><th>Conceito</th><th>Definição</th><th>Detalhe</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Ponto material</strong></td><td>Corpo cujas dimensões podem ser desprezadas</td><td>Ex.: carro em rodovia</td></tr>
+        <tr><td><strong>Corpo extenso</strong></td><td>Corpo cujas dimensões importam na análise</td><td>Ex.: carro manobrand na garagem</td></tr>
+        <tr><td><strong>Móvel</strong></td><td>Qualquer corpo em estudo — bola, pessoa, avião, Sol, Lua</td><td>—</td></tr>
+        <tr><td><strong>Trajetória</strong></td><td>Linha que liga os pontos consecutivos por onde o móvel passa</td><td>Depende do referencial!</td></tr>
+        <tr><td><strong>Espaço (s)</strong></td><td>Medida algébrica do arco de trajetória desde a origem O</td><td>Pode ser + ou −</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Variação de Espaço (Deslocamento Escalar)</h3>
+  <div class="formula-box">Δs = s₂ − s₁</div>
+  <div class="compare-grid">
+    <div class="compare-item c1">
+      <h4>Δs &gt; 0 (positivo)</h4>
+      <p style="font-size:0.85rem">O móvel avançou no sentido positivo da trajetória</p>
+    </div>
+    <div class="compare-item c2">
+      <h4>Δs &lt; 0 (negativo)</h4>
+      <p style="font-size:0.85rem">O móvel voltou — sentido oposto ao da trajetória</p>
+    </div>
+  </div>
+  <div class="card card-accent-yellow">
+    <h4>Δs = 0</h4>
+    <p>O móvel voltou ao mesmo ponto — mas isso não significa que ele ficou parado! Pode ter feito todo um percurso e voltado. (Distância percorrida ≠ deslocamento!)</p>
+  </div>
+
+  <h3>Referencial</h3>
+  <div class="card card-accent-purple">
+    <p>O <strong>referencial</strong> é o corpo ou local em relação ao qual analisamos se um móvel está em <strong>repouso</strong> ou em <strong>movimento</strong>.</p>
+    <ul class="styled">
+      <li><strong>Movimento:</strong> posição varia com o tempo em relação ao referencial</li>
+      <li><strong>Repouso:</strong> posição não varia com o tempo em relação ao referencial</li>
+    </ul>
+    <div class="highlight">
+      <strong>💡 Exemplo clássico do ônibus:</strong> O passageiro está em <em>movimento</em> em relação a um poste (referencial fixo), mas em <em>repouso</em> em relação ao motorista (referencial do ônibus). Os estados de repouso e movimento são <strong>relativos ao referencial adotado</strong>!
+    </div>
+  </div>
+
+  <div class="alert">
+    <strong>⚠️ Pega-ratão de prova!</strong> A <em>trajetória</em> também depende do referencial. Um objeto lançado de um avião tem trajetória <em>curvilínea</em> para quem está no chão, mas trajetória <em>vertical</em> para quem está no avião.
+  </div>
+</section>
+
+<!-- C2 S2: Velocidade -->
+<section class="section" id="c2s2">
+  <div class="section-header">
+    <span class="section-icon">🚀</span>
+    <span class="section-title">2. Velocidade Escalar</span>
+  </div>
+
+  <h3>Velocidade Escalar Média</h3>
+  <div class="formula-box">v<sub>m</sub> = Δs / Δt</div>
+  <div class="card card-accent-blue">
+    <ul class="styled">
+      <li><strong>Unidade no SI:</strong> m/s (metro por segundo)</li>
+      <li><strong>Uso prático:</strong> km/h (quilômetro por hora)</li>
+    </ul>
+    <div class="conversao-card">
+      <span style="color: var(--accent2)">m/s</span>
+      <span class="conversao-arrow">→ × 3,6 →</span>
+      <span style="color: var(--accent3)">km/h</span>
+    </div>
+    <div class="conversao-card">
+      <span style="color: var(--accent3)">km/h</span>
+      <span class="conversao-arrow">→ ÷ 3,6 →</span>
+      <span style="color: var(--accent2)">m/s</span>
+    </div>
+  </div>
+
+  <h3>Exemplo do livro — Ciclista</h3>
+  <div class="card card-accent-left">
+    <p>Ciclista parte de cidade A às 9h30min e chega à cidade B (72 km) às 13h30min.</p>
+    <p>Δt = 4 h</p>
+    <div class="formula-box">v<sub>m</sub> = 72 km / 4 h = <strong>18 km/h</strong></div>
+    <p>Convertendo: 18 ÷ 3,6 = <strong>5 m/s</strong></p>
+  </div>
+
+  <h3>Velocidade Escalar Instantânea</h3>
+  <div class="tip">
+    <strong>🔵 Definição:</strong> A velocidade num instante específico. É o que o velocímetro do carro mostra. Matematicamente, é a velocidade média quando Δt → 0.
+  </div>
+
+  <div class="highlight">
+    <strong>💡 Curiosidades de velocidade (que podem cair no Enem!):</strong><br>
+    • Pessoa caminhando: ≈ 1,5 m/s (5,4 km/h)<br>
+    • Corredor nos 100 m rasos: ≈ 10 m/s (36 km/h)<br>
+    • Lebre: ≈ 70 km/h &nbsp;|&nbsp; Guepardo: ≈ 100 km/h &nbsp;|&nbsp; Falcão-peregrino mergulhando: ≈ 320 km/h<br>
+    • Avião comercial: ≈ 800 km/h &nbsp;|&nbsp; Luz no vácuo: 299.792.458 m/s
+  </div>
+</section>
+
+<!-- C2 S3: Aceleração -->
+<section class="section" id="c2s3">
+  <div class="section-header">
+    <span class="section-icon">⚡</span>
+    <span class="section-title">3. Aceleração Escalar</span>
+  </div>
+
+  <div class="card card-accent-left">
+    <p>A <strong>aceleração</strong> indica a rapidez com que a velocidade instantânea muda. Corpo com velocidade variável tem aceleração.</p>
+  </div>
+
+  <h3>Aceleração Escalar Média</h3>
+  <div class="formula-box">α<sub>m</sub> = Δv / Δt = (v₂ − v₁) / (t₂ − t₁)</div>
+  <div class="card card-accent-blue">
+    <p><strong>Unidade no SI:</strong> m/s² (metro por segundo ao quadrado) ou m·s⁻²</p>
+  </div>
+
+  <h3>Tipos de Movimento pela Aceleração</h3>
+  <table>
+    <thead>
+      <tr><th>Tipo</th><th>Característica</th><th>α</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Acelerado</strong></td><td>Velocímetro com valores crescentes — vai mais rápido</td><td>α &gt; 0</td></tr>
+      <tr><td><strong>Retardado</strong></td><td>Velocímetro com valores decrescentes — vai mais devagar</td><td>α &lt; 0</td></tr>
+      <tr><td><strong>Uniforme (MU)</strong></td><td>Velocidade constante</td><td>α = 0</td></tr>
+    </tbody>
+  </table>
+
+  <div class="card card-accent-yellow">
+    <h4>Exemplo do livro — carro que parte do repouso</h4>
+    <p>Carro acelera de 0 a 80 km/h em 10 s:</p>
+    <div class="formula-box">α<sub>m</sub> = 80 km/h ÷ 10 s = 8 (km/h)/s</div>
+    <p>Isso significa que, em média, a velocidade crescia <strong>8 km/h a cada segundo</strong>: em t=1s → v=8 km/h, em t=2s → v=16 km/h, ..., em t=10s → v=80 km/h.</p>
+  </div>
+
+  <div class="alert">
+    <strong>⚠️ Aceleração escalar instantânea (α):</strong> No SI é sempre m/s². A aceleração vetorial considera também mudanças de direção — curvas têm aceleração mesmo com velocímetro constante (aceleração centrípeta)!
+  </div>
+</section>
+
+<!-- C2 S4: MU -->
+<section class="section" id="c2s4">
+  <div class="section-header">
+    <span class="section-icon">🏃</span>
+    <span class="section-title">4. Cinemática dos Movimentos Uniforme e Uniformemente Variado</span>
+  </div>
+
+  <h3>Movimento Uniforme (MU)</h3>
+  <div class="card card-accent-blue">
+    <p>No MU, o móvel percorre <strong>iguais variações de espaço em iguais intervalos de tempo</strong>. A velocidade escalar instantânea é <strong>constante e diferente de zero</strong>.</p>
+    <ul class="styled">
+      <li>Velocidade: v = constante (v = vₘ)</li>
+      <li>Aceleração: α = 0</li>
+    </ul>
+  </div>
+
+  <h3>Função Horária do Espaço (MU)</h3>
+  <div class="formula-box">s = s₀ + v · t</div>
+  <div class="card">
+    <table>
+      <thead>
+        <tr><th>Variável</th><th>Significado</th><th>Unidade (SI)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>s</strong></td><td>Espaço no instante t</td><td>m</td></tr>
+        <tr><td><strong>s₀</strong></td><td>Espaço inicial (em t₀ = 0)</td><td>m</td></tr>
+        <tr><td><strong>v</strong></td><td>Velocidade escalar (constante)</td><td>m/s</td></tr>
+        <tr><td><strong>t</strong></td><td>Instante de tempo</td><td>s</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Gráficos do MU</h3>
+  <div class="compare-grid">
+    <div class="compare-item c1">
+      <h4>Gráfico s × t</h4>
+      <p style="font-size:0.85rem">Reta inclinada (função do 1º grau). A inclinação = tg θ = <strong>velocidade v</strong>. Reta mais inclinada → maior velocidade.</p>
+    </div>
+    <div class="compare-item c2">
+      <h4>Gráfico v × t</h4>
+      <p style="font-size:0.85rem">Reta horizontal (velocidade constante). A área sob a curva = deslocamento Δs = v · Δt.</p>
+    </div>
+  </div>
+
+  <h3>Movimentos Progressivo e Retrógrado</h3>
+  <div class="card card-accent-purple">
+    <ul class="styled">
+      <li><strong>Progressivo:</strong> v &gt; 0 — mesmo sentido da orientação da trajetória</li>
+      <li><strong>Retrógrado:</strong> v &lt; 0 — sentido contrário à orientação da trajetória</li>
+    </ul>
+  </div>
+
+  <h3>Encontro de dois móveis no MU</h3>
+  <div class="card card-accent-left">
+    <p>Para encontrar quando e onde dois móveis A e B se encontram:</p>
+    <ul class="styled">
+      <li>Escreva as funções horárias de A e B: s_A e s_B</li>
+      <li>Iguale: s_A = s_B → encontre o instante t_e</li>
+      <li>Substitua t_e em qualquer equação para achar s_e</li>
+    </ul>
+    <div class="card card-accent-yellow" style="margin-top:0.8rem">
+      <h4>Exemplo do livro (dois carros)</h4>
+      <p>Carro A: s_A = 15t &nbsp;|&nbsp; Carro B (100 m à frente): s_B = 100 + 10t</p>
+      <p>Encontro: 15t_e = 100 + 10t_e → 5t_e = 100 → <strong>t_e = 20 s</strong></p>
+      <p>Posição: s_e = 15 × 20 = <strong>300 m</strong></p>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <strong>💡 Extra — Movimento Uniformemente Variado (MUV) — início no cap. 2:</strong><br>
+    O livro começa a abordar no cap. 2 (além da p. 35). O MUV tem aceleração constante e diferente de zero. As equações fundamentais são:<br>
+    <span style="font-family:'Space Mono',monospace; color: var(--accent2)">v = v₀ + α·t</span>&nbsp;&nbsp;&nbsp;
+    <span style="font-family:'Space Mono',monospace; color: var(--accent2)">s = s₀ + v₀·t + (α·t²)/2</span>&nbsp;&nbsp;&nbsp;
+    <span style="font-family:'Space Mono',monospace; color: var(--accent2)">v² = v₀² + 2·α·Δs</span>
+  </div>
+
+  <div class="tip">
+    <strong>🔵 Dica macete para não confundir:</strong>
+    <ul class="styled" style="margin-top:0.5rem">
+      <li>MU → velocidade constante → gráfico s×t é <em>reta</em></li>
+      <li>MUV → aceleração constante → gráfico s×t é <em>parábola</em></li>
+      <li>A inclinação do gráfico s×t sempre dá a velocidade naquele ponto</li>
+      <li>A área do gráfico v×t sempre dá o deslocamento</li>
+    </ul>
+  </div>
+</section>
+
+<!-- RESUMÃO GERAL -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-icon">📋</span>
+    <span class="section-title">RESUMÃO — Todas as Fórmulas dos Capítulos 1 e 2</span>
+  </div>
+  <div class="card card-accent-purple">
+    <table>
+      <thead>
+        <tr><th>Grandeza</th><th>Fórmula</th><th>Unidade SI</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Variação de espaço</td><td>Δs = s₂ − s₁</td><td>m</td></tr>
+        <tr><td>Velocidade escalar média</td><td>vₘ = Δs / Δt</td><td>m/s</td></tr>
+        <tr><td>Aceleração escalar média</td><td>αₘ = Δv / Δt</td><td>m/s²</td></tr>
+        <tr><td>Função horária (MU)</td><td>s = s₀ + v·t</td><td>—</td></tr>
+        <tr><td>Conversão velocidade</td><td>m/s × 3,6 = km/h</td><td>—</td></tr>
+        <tr><td>Conversão tempo</td><td>1 h = 3600 s</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="section" id="quiz">
+  <div class="quiz-section">
+    <div class="quiz-title">🎯 Quiz Relâmpago — Testa seus Conhecimentos!</div>
+
+    <div class="quiz-q" id="q1">
+      <div class="q-text">1. Uma ciclista percorre 90 km em 3 horas. Qual a velocidade média em m/s?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answer(this,'q1',false)">A) 30 m/s</button>
+        <button class="quiz-option" onclick="answer(this,'q1',true)">B) 8,33 m/s</button>
+        <button class="quiz-option" onclick="answer(this,'q1',false)">C) 25 m/s</button>
+        <button class="quiz-option" onclick="answer(this,'q1',false)">D) 0,5 m/s</button>
+      </div>
+      <div class="quiz-feedback" id="q1-fb">vₘ = 90 km/3h = 30 km/h → 30 ÷ 3,6 = 8,33 m/s ✅</div>
+    </div>
+
+    <div class="quiz-q" id="q2">
+      <div class="q-text">2. Um carro acelera de 0 a 72 km/h em 8 s. Qual a aceleração média em m/s²?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answer(this,'q2',false)">A) 9 m/s²</button>
+        <button class="quiz-option" onclick="answer(this,'q2',false)">B) 7,2 m/s²</button>
+        <button class="quiz-option" onclick="answer(this,'q2',true)">C) 2,5 m/s²</button>
+        <button class="quiz-option" onclick="answer(this,'q2',false)">D) 0,25 m/s²</button>
+      </div>
+      <div class="quiz-feedback" id="q2-fb">72 km/h ÷ 3,6 = 20 m/s → α = 20/8 = 2,5 m/s² ✅</div>
+    </div>
+
+    <div class="quiz-q" id="q3">
+      <div class="q-text">3. No Movimento Uniforme, o que a inclinação do gráfico s × t representa?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answer(this,'q3',false)">A) A aceleração do móvel</button>
+        <button class="quiz-option" onclick="answer(this,'q3',true)">B) A velocidade escalar</button>
+        <button class="quiz-option" onclick="answer(this,'q3',false)">C) O deslocamento total</button>
+        <button class="quiz-option" onclick="answer(this,'q3',false)">D) O espaço inicial</button>
+      </div>
+      <div class="quiz-feedback" id="q3-fb">tg θ = Δs/Δt = vₘ → a inclinação é a velocidade escalar! ✅</div>
+    </div>
+
+    <div class="quiz-q" id="q4">
+      <div class="q-text">4. Qual é a unidade de medida do segundo no padrão atômico?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answer(this,'q4',false)">A) Baseado na rotação da Terra</button>
+        <button class="quiz-option" onclick="answer(this,'q4',false)">B) 1/86.400 do dia solar médio</button>
+        <button class="quiz-option" onclick="answer(this,'q4',true)">C) 9.192.631.770 períodos do átomo de césio-133</button>
+        <button class="quiz-option" onclick="answer(this,'q4',false)">D) A velocidade da luz no vácuo</button>
+      </div>
+      <div class="quiz-feedback" id="q4-fb">Desde 1967, o segundo é definido pelo átomo de césio-133. Isso garante precisão de 1 s a cada 1 milhão de anos! ✅</div>
+    </div>
+
+    <div class="quiz-q" id="q5">
+      <div class="q-text">5. Dois móveis em MU: A parte da origem com v=20 m/s; B parte de 300 m com v=5 m/s no mesmo sentido. Em que instante A alcança B?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answer(this,'q5',false)">A) 10 s</button>
+        <button class="quiz-option" onclick="answer(this,'q5',true)">B) 20 s</button>
+        <button class="quiz-option" onclick="answer(this,'q5',false)">C) 15 s</button>
+        <button class="quiz-option" onclick="answer(this,'q5',false)">D) 25 s</button>
+      </div>
+      <div class="quiz-feedback" id="q5-fb">s_A = 20t | s_B = 300 + 5t → 20t = 300 + 5t → 15t = 300 → t = 20 s ✅</div>
+    </div>
+
+    <div class="quiz-q" id="q6">
+      <div class="q-text">6. A diferença entre hipótese e teoria na Ciência é:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answer(this,'q6',false)">A) São sinônimos — a Ciência os usa da mesma forma</button>
+        <button class="quiz-option" onclick="answer(this,'q6',true)">B) Hipótese é provisória; teoria foi testada e confirmada por experimentos</button>
+        <button class="quiz-option" onclick="answer(this,'q6',false)">C) Teoria é mais simples que hipótese</button>
+        <button class="quiz-option" onclick="answer(this,'q6',false)">D) Hipótese é um fato comprovado</button>
+      </div>
+      <div class="quiz-feedback" id="q6-fb">Hipótese = tentativa explicativa provisória. Teoria = conjunto de hipóteses testadas que explica coerentemente fenômenos. ✅</div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer>
+  REVISÃO SUPREMA — FÍSICA CAPS. 1 & 2 &nbsp;|&nbsp; BOA PROVA AMANHÃ! 🚀<br>
+  Ferraro, Torres & Penteado — Moderna Plus Física — Volume Único — 2024
+</footer>
+
+<script>
+function answer(btn, questionId, isCorrect) {
+  const q = document.getElementById(questionId);
+  const buttons = q.querySelectorAll('.quiz-option');
+  const fb = document.getElementById(questionId + '-fb');
+  
+  buttons.forEach(b => {
+    b.disabled = true;
+    b.style.opacity = '0.6';
+  });
+  
+  btn.style.opacity = '1';
+  btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  
+  fb.classList.add('show');
+  fb.classList.add(isCorrect ? 'ok' : 'nok');
+  
+  if (!isCorrect) {
+    fb.textContent = '❌ Errou! ' + fb.textContent;
+  } else {
+    fb.textContent = '✅ Correto! ' + fb.textContent;
+  }
+}
+</script>
+</body>
+</html>
